@@ -22,7 +22,7 @@
             ]
           },
           {
-            "group": "Customization",
+            "group": "Image Models",
             "pages": [
               "essentials/settings",
               "essentials/navigation"
