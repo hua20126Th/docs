@@ -15,6 +15,7 @@
         "groups": [
           {
             "group": "Getting started",
+            "hidden": true,
             "pages": [
               "quickstart",
               "development"
@@ -48,6 +49,7 @@
       },
       {
         "tab": "API reference",
+        "hidden": true,
         "global": {
           "anchors": [
             {
