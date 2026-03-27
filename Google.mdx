@@ -1,183 +1,339 @@
----
-title: "Google - Nano Banana 2"
----
+# Google - Nano Banana 2
 
-# Getting Started with KIE API (Important)
+## OpenAPI Specification
 
-> Welcome to **KIE**. This guide walks you through the essential information you need to start integrating KIE APIs into your product, including models, pricing, authentication, request flow, limits, and support.
+```yaml
+openapi: 3.0.1
+info:
+  title: ''
+  description: ''
+  version: 1.0.0
+paths:
+  /api/v1/jobs/createTask:
+    post:
+      summary: Google - Nano Banana 2
+      deprecated: false
+      description: >
+        Image generation by Nano Banana 2
 
-We aim to be transparent, practical, and developer-friendly. Please read this carefully before going to production.
 
-## 1. Available Models & Playground
+        ## Query Task Status
 
-You can find the **latest supported models** on our Market page:
 
-👉 [https://kie.ai/market](https://kie.ai/market)
+        After submitting a task, use the unified query endpoint to check
+        progress and retrieve results:
 
-- We continuously update and onboard new models as soon as they are stable.
-- Each model page links to its **Playground**, where you can test and experiment directly in our UI before calling the API.
-- The Playground is the best place to understand model behavior, parameters, and output formats.
 
----
+        <Card title="Get Task Details" icon="lucide-search"
+        href="/market/common/get-task-detail">
+          Learn how to query task status and retrieve generation results
+        </Card>
 
-## 2. Pricing
 
-The complete and up-to-date pricing list is available here:
 
-👉 [https://kie.ai/pricing](https://kie.ai/pricing)
+        ::: tip[]
 
-- Our prices are typically **30%–50% lower than official APIs**.
-- For some models, discounts can reach **up to 80%**.
-- Pricing may change as upstream providers adjust their costs, so always refer to the pricing page for the latest numbers.
+        For production use, we recommend using the `callBackUrl` parameter to
+        receive automatic notifications when generation completes, rather than
+        polling the status endpoint.
 
----
+        :::
 
-## 3. Creating and Securing Your API Key
 
-Create and manage your API keys here:
 
-👉 [https://kie.ai/api-key](https://kie.ai/api-key)
+        ## Related Resources
 
-**Important security notes:**
 
-- **Never expose your API key in frontend code** (browser, mobile apps, public repositories).
-- Treat your API key as a secret.
+        <CardGroup cols={2}>
+          <Card title="Market Overview" icon="lucide-store" href="/market/quickstart">
+            Explore all available models
+          </Card>
+          <Card title="Common API" icon="lucide-cog" href="/common-api/get-account-credits">
+            Check credits and account usage
+          </Card>
+        </CardGroup>
+      tags:
+        - docs/en/Market/Image    Models/Google
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - model
+                - input
+              properties:
+                model:
+                  type: string
+                  enum:
+                    - nano-banana-2
+                  default: nano-banana-2
+                  description: |-
+                    The model name to use for generation. Required field.
 
-To help protect your usage, we provide:
+                    - Must be `nano-banana-2` for this endpoint
+                  examples:
+                    - nano-banana-2
+                callBackUrl:
+                  type: string
+                  format: uri
+                  description: >-
+                    The URL to receive generation task completion updates.
+                    Optional but recommended for production use.
 
-- **Rate limits per key** (hourly, daily, and total usage caps)
-- **IP whitelist** support, allowing only approved server IPs to access the API
 
-These features help prevent accidental overuse and unauthorized requests.
+                    - System will POST task status and results to this URL when
+                    generation completes
 
----
+                    - Callback includes generated content URLs and task
+                    information
 
-## 4. Required Request Headers
+                    - Your callback endpoint should accept POST requests with
+                    JSON payload containing results
 
-Every API request **must** include the correct headers:
+                    - Alternatively, use the Get Task Details endpoint to poll
+                    task status
 
-```http
-Authorization: Bearer <YOUR_API_KEY>
-Content-Type: application/json
+                    - To ensure callback security, see [Webhook Verification
+                    Guide](/common-api/webhook-verification) for signature
+                    verification implementation
+                  examples:
+                    - https://your-domain.com/api/callback
+                input:
+                  type: object
+                  description: Input parameters for the generation task
+                  properties:
+                    prompt:
+                      type: string
+                      description: >-
+                        A text description of the image you want to generate
+                        (Max length: 20000 characters)
+                      maxLength: 20000
+                      examples:
+                        - >-
+                          Comic poster: cool banana hero in shades leaps from
+                          sci-fi pad. Six panels: 1) 4K mountain landscape, 2)
+                          banana holds page of long multilingual text with auto
+                          translation, 3) Gemini 3 hologram for
+                          search/knowledge/reasoning, 4) camera UI sliders for
+                          angle focus color, 5) frame trio 1:1-9:16, 6)
+                          consistent banana poses. Footer shows Google icons.
+                          Tagline: Nano Banana Pro now on Kie AI.
+                    image_input:
+                      description: >-
+                        Input images to transform or use as reference (supports
+                        up to 14 images) (File URL after upload, not file
+                        content; Accepted types: image/jpeg, image/png,
+                        image/webp; Max size: 30.0MB)
+                      type: array
+                      items:
+                        type: string
+                        format: uri
+                      maxItems: 14
+                      examples:
+                        - []
+                    aspect_ratio:
+                      type: string
+                      description: Aspect ratio of the generated image
+                      enum:
+                        - '1:1'
+                        - '1:4'
+                        - '1:8'
+                        - '2:3'
+                        - '3:2'
+                        - '3:4'
+                        - '4:1'
+                        - '4:3'
+                        - '4:5'
+                        - '5:4'
+                        - '8:1'
+                        - '9:16'
+                        - '16:9'
+                        - '21:9'
+                        - auto
+                      default: auto
+                      examples:
+                        - '1:1'
+                    resolution:
+                      description: Resolution of the generated image
+                      type: string
+                      enum:
+                        - 1K
+                        - 2K
+                        - 4K
+                      default: 1K
+                      examples:
+                        - 1K
+                    output_format:
+                      description: Format of the output image
+                      type: string
+                      enum:
+                        - png
+                        - jpg
+                      default: jpg
+                      examples:
+                        - jpg
+                  required:
+                    - prompt
+                  x-apidog-orders:
+                    - prompt
+                    - image_input
+                    - aspect_ratio
+                    - resolution
+                    - output_format
+                  x-apidog-ignore-properties: []
+              x-apidog-orders:
+                - model
+                - callBackUrl
+                - input
+              x-apidog-ignore-properties: []
+            example:
+              model: nano-banana-2
+              callBackUrl: https://your-domain.com/api/callback
+              input:
+                prompt: >-
+                  Comic poster: cool banana hero in shades leaps from sci-fi
+                  pad. Six panels: 1) 4K mountain landscape, 2) banana holds
+                  page of long multilingual text with auto translation, 3)
+                  Gemini 3 hologram for search/knowledge/reasoning, 4) camera UI
+                  sliders for angle focus color, 5) frame trio 1:1-9:16, 6)
+                  consistent banana poses. Footer shows Google icons. Tagline:
+                  Nano Banana Pro now on Kie AI.
+                image_input: []
+                aspect_ratio: auto
+                resolution: 1K
+                output_format: png
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+                x-apidog-orders: []
+                x-apidog-ignore-properties: []
+          headers: {}
+          x-apidog-name: 成功
+        '500':
+          description: request failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    description: >-
+                      Response status code
+
+
+                      - **200**: Success - Request has been processed
+                      successfully
+
+                      - **401**: Unauthorized - Authentication credentials are
+                      missing or invalid
+
+                      - **402**: Insufficient Credits - Account does not have
+                      enough credits to perform the operation
+
+                      - **404**: Not Found - The requested resource or endpoint
+                      does not exist
+
+                      - **422**: Validation Error - The request parameters
+                      failed validation checks
+
+                      - **429**: Rate Limited - Request limit has been exceeded
+                      for this resource
+
+                      - **455**: Service Unavailable - System is currently
+                      undergoing maintenance
+
+                      - **500**: Server Error - An unexpected error occurred
+                      while processing the request
+
+                      - **501**: Generation Failed - Content generation task
+                      failed
+
+                      - **505**: Feature Disabled - The requested feature is
+                      currently disabled
+                  msg:
+                    type: string
+                    description: Response message, error description when failed
+                  data:
+                    type: object
+                    properties: {}
+                    x-apidog-orders: []
+                    x-apidog-ignore-properties: []
+                x-apidog-orders:
+                  - code
+                  - msg
+                  - data
+                required:
+                  - code
+                  - msg
+                  - data
+                x-apidog-ignore-properties: []
+              example:
+                code: 500
+                msg: >-
+                  Server Error - An unexpected error occurred while processing
+                  the request
+                data: null
+          headers: {}
+          x-apidog-name: 'Error '
+      security:
+        - BearerAuth: []
+          x-apidog:
+            schemeGroups:
+              - id: kn8M4YUlc5i0A0179ezwx
+                schemeIds:
+                  - BearerAuth
+            required: true
+            use:
+              id: kn8M4YUlc5i0A0179ezwx
+            scopes:
+              kn8M4YUlc5i0A0179ezwx:
+                BearerAuth: []
+      x-apidog-folder: docs/en/Market/Image    Models/Google
+      x-apidog-status: released
+      x-run-in-apidog: https://app.apidog.com/web/project/1184766/apis/api-28711567-run
+components:
+  schemas: {}
+  securitySchemes:
+    BearerAuth:
+      type: bearer
+      scheme: bearer
+      bearerFormat: API Key
+      description: |-
+        所有 API 都需要通过 Bearer Token 进行身份验证。
+
+        获取 API Key：
+        1. 访问 [API Key 管理页面](https://kie.ai/api-key) 获取您的 API Key
+
+        使用方法：
+        在请求头中添加：
+        Authorization: Bearer YOUR_API_KEY
+
+        注意事项：
+        - 请妥善保管您的 API Key，切勿泄露给他人
+        - 若怀疑 API Key 泄露，请立即在管理页面重置
+servers:
+  - url: https://api.kie.ai
+    description: 正式环境
+security:
+  - BearerAuth: []
+    x-apidog:
+      schemeGroups:
+        - id: kn8M4YUlc5i0A0179ezwx
+          schemeIds:
+            - BearerAuth
+      required: true
+      use:
+        id: kn8M4YUlc5i0A0179ezwx
+      scopes:
+        kn8M4YUlc5i0A0179ezwx:
+          BearerAuth: []
+
 ```
-
-If these headers are missing or incorrect, you may receive:
-
-```json
-{"code":401,"msg":"You do not have access permissions"}
-```
-
-Always double-check your headers when debugging authentication issues.
-
----
-
-## 5. Logs & Task Details
-
-You can inspect all your historical tasks here:
-
-👉 [https://kie.ai/logs](https://kie.ai/logs)
-
-For each task, you can view:
-
-- Creation time
-- Model used
-- Input parameters
-- Task status
-- Credit consumption
-- Final results or error details
-
-If you ever suspect incorrect credit usage, this page is the source of truth for verification.
-
----
-
-## 6. Data Retention Policy
-
-Please note our retention rules:
-
-- **Generated media files**: stored for 14 days, then automatically deleted
-- **Log records** (text / metadata): stored for 2 months, then automatically deleted
-
-If you need long-term access, make sure to download and store results on your side in time.
-
----
-
-## 7. Asynchronous Task Model
-
-All generation tasks on KIE are asynchronous.
-
-A successful request returns:
-
-- **HTTP 200**
-- A `task_id` ::: warning \[Status Verification\] A `200 OK` response **only** means the task was successfully **created**. It does **not** mean the task is completed. :::
-
-To get the final result, you must either:
-
-- Provide a callback (webhook) URL in the request, or
-- Actively poll the "query record info" API using the `task_id`
-
----
-
-## 8. Rate Limits & Concurrency
-
-By default, we apply the following limits:
-
-- Up to 20 new generation requests per 10 seconds
-- This typically allows 100\+ concurrent running tasks
-- Limits are applied per account
-
-If you exceed the limit:
-
-- Requests will be rejected with HTTP 429
-- Rejected requests will not enter the queue
-
-For most users, this is more than sufficient. If you consistently hit 429 errors, you may contact support to request a higher limit — approvals are handled cautiously.
-
----
-
-## 9. Developer Support
-
-The recommended support channels are available directly from the dashboard (bottom-left menu):
-
-- Get help on Discord
-- Get help on Telegram
-
-What you get:
-
-- Private, 1-on-1 channels
-- Your data and conversations remain confidential
-- Faster and more technical responses
-
-**Support hours:** UTC 21:00 – UTC 17:00 (next day)
-
-You may also email us at [support@kie.ai](mailto:support@kie.ai), but this is not the preferred or fastest option.
-
----
-
-## 10. Stability Expectations
-
-We provide access to top-tier, highly competitive APIs at very aggressive pricing.
-
-That said:
-
-- We are not perfect
-- Our overall stability may be slightly lower than official providers
-- This is a conscious trade-off
-
-In practice, KIE is stable enough to support production workloads and long-term business growth, but we believe in setting realistic expectations upfront.
-
----
-
-## 11. About the Team
-
-KIE is built by a small startup team.
-
-- We move fast
-- We care deeply about developer experience
-- We are constantly improving
-
-At the same time, we acknowledge that:
-
-- Not everything is perfect
-- We can't satisfy every use case immediately
-
-Your feedback helps us improve — and we genuinely appreciate it.
