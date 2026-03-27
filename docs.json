@@ -14,56 +14,15 @@
         "tab": "Guides",
         "groups": [
           {
-            "group": "Getting started",
-            "hidden": true,
-            "pages": [
-              "quickstart",
-              "development"
-            ]
-          },
-          {
             "group": "Image Models",
             "pages": [
-              "essentials/navigation"
-            ]
-          },
-          {
-            "group": "Writing content",
-            "hidden": true,
-            "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/reusable-snippets"
-            ]
-          },
-          {
-            "group": "AI tools",
-            "hidden": true,
-            "pages": [
-              "ai-tools/cursor",
-              "ai-tools/claude-code",
-              "ai-tools/windsurf"
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "API reference",
-        "groups": [
-          {
-            "group": "API documentation",
-            "pages": [
-              "api-reference/introduction"
-            ]
-          },
-          {
-            "group": "Endpoint examples",
-            "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
+              "essentials/navigation",
+              {
+                "group": "google",
+                "pages": [
+                  "untitled-page"
+                ]
+              }
             ]
           }
         ]
