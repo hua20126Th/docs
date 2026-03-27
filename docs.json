@@ -52,24 +52,6 @@
       {
         "tab": "API reference",
         "hidden": true,
-        "global": {
-          "anchors": [
-            {
-              "anchor": "Documentation",
-              "icon": "angles-up-down",
-              "color": {
-                "light": "#ee500d",
-                "dark": "#ee500d"
-              },
-              "href": "https://mintlify.com/docs"
-            },
-            {
-              "anchor": "Blog",
-              "icon": "newspaper",
-              "href": "https://mintlify.com/blog123"
-            }
-          ]
-        },
         "groups": [
           {
             "group": "API documentation",
