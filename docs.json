@@ -12,7 +12,7 @@
     "tabs": [
       {
         "tab": "Guides",
-        "groups": [
+        "pages": [
           {
             "group": "Image Models",
             "pages": [
@@ -24,7 +24,8 @@
                 ]
               }
             ]
-          }
+          },
+          "api"
         ]
       }
     ]
