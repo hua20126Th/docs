@@ -25,17 +25,6 @@
             ]
           }
         ]
-      },
-      {
-        "tab": "Common API",
-        "menu": [
-          {
-            "item": "Common API Quickstart",
-            "pages": [
-              "untitled-page"
-            ]
-          }
-        ]
       }
     ]
   },
