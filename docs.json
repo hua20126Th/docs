@@ -18,6 +18,7 @@
             "pages": [
               {
                 "group": "google",
+                "expanded": true,
                 "pages": [
                   "Google"
                 ]
